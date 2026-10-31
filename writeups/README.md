@@ -2,7 +2,7 @@
 
 Un writeup visual independiente por cada hallazgo técnico: contexto, explotación paso a paso con capturas, impacto y remediación. Pensados para leerse sueltos — cada uno es autocontenido, sin depender del README principal ni del PDF.
 
-Son **20 páginas** para **19 hallazgos** de la [tabla principal](../README.md#-hallazgos-confirmados): el bypass del rate-limit del MFA (`F-007`) tiene su propia página aunque el informe formal lo integra dentro de la cadena completa (`F-009`) — aquí se cuenta aparte por ser una técnica con entidad propia.
+Son **25 páginas** para **24 hallazgos** de la [tabla principal](../README.md#-hallazgos-confirmados): el bypass del rate-limit del MFA (`F-007`) tiene su propia página aunque el informe formal lo integra dentro de la cadena completa (`F-009`) — aquí se cuenta aparte por ser una técnica con entidad propia.
 
 ➡️ Volver al [README principal](../README.md) · [Informe técnico (PDF)](../docs/informe-BigShop.pdf)
 
@@ -42,6 +42,11 @@ Son **20 páginas** para **19 hallazgos** de la [tabla principal](../README.md#-
 |---|---|:---:|
 | F-019 | [Enumeración masiva de usuarios sin autenticación](F-019-enumeracion-usuarios-wordpress.md) | 🟡 Medio |
 | F-020 | [Denegación de servicio parcial vía wp-cron.php](F-020-dos-wp-cron.md) | 🟡 Medio |
+| F-021 | [Credenciales débiles (admin/qwerty) vía fuerza bruta](F-021-fuerza-bruta-admin-qwerty.md) | 🔴 Crítico |
+| F-022 | [🏆 RCE vía Theme File Editor → reverse shell](F-022-rce-theme-file-editor.md) | 🔴 Crítico |
+| F-023 | [Secretos de BD y claves de autenticación en wp-config.php](F-023-secretos-wp-config.md) | 🔴 Crítico |
+| F-024 | [Grupo "workers" con /etc escribible (no explotado)](F-024-grupo-workers-etc-no-explotado.md) | 🟡 Medio |
+| F-025 | [🏆 Cadena completa: fuerza bruta → RCE → compromiso total](F-025-cadena-completa-wordpress.md) | 🔴 Crítico |
 
 ---
 

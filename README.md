@@ -6,7 +6,7 @@
 
 ![Status](https://img.shields.io/badge/estado-en%20curso-yellow)
 ![Target](https://img.shields.io/badge/objetivo-172.17.0.2-blue)
-![Findings](https://img.shields.io/badge/hallazgos-19-critical)
+![Findings](https://img.shields.io/badge/hallazgos-24-critical)
 ![License](https://img.shields.io/badge/uso-educativo-lightgrey)
 
 </div>
@@ -17,7 +17,7 @@
 
 Auditoría de seguridad de caja negra realizada, en el marco de un TFM, sobre **BigShop**, un laboratorio Docker con **4 aplicaciones web** desplegadas sobre un mismo host. Adoptamos el rol de auditores externos contratados por la empresa cliente ficticia *BigShop*, partiendo únicamente de una dirección IP.
 
-> 🚧 **Estado:** **2 de 4 aplicaciones auditadas por completo** — **PenguinWave** (puerto 8080, 10 hallazgos) y **PixelForge** (puerto 10000, 7 hallazgos, con dos rutas independientes hasta ejecución remota de código y dos rutas independientes adicionales de toma de cuenta administradora). La tercera, **WordPress** (puerto 80), está **en curso** (2 hallazgos confirmados). La aplicación restante (puerto 9090, StreamWave) sigue pendiente.
+> 🚧 **Estado:** **3 de 4 aplicaciones auditadas por completo** — **PenguinWave** (puerto 8080, 10 hallazgos), **PixelForge** (puerto 10000, 7 hallazgos, con dos rutas independientes hasta ejecución remota de código y dos rutas independientes adicionales de toma de cuenta administradora) y **WordPress** (puerto 80, 7 hallazgos, compromiso total del servidor vía fuerza bruta → RCE → secretos expuestos). La aplicación restante (puerto 9090, StreamWave) sigue pendiente.
 
 ## 🎯 Objetivo y alcance
 
@@ -43,7 +43,7 @@ bigshop-security-audit/
 │   ├── penguinwave/README.md
 │   ├── pixelforge/README.md
 │   └── wordpress/README.md
-├── writeups/                    ← un writeup visual independiente por hallazgo (20)
+├── writeups/                    ← un writeup visual independiente por hallazgo (25)
 │   └── README.md                ← índice de writeups
 ├── scripts/                     ← PoCs propios (fuerza bruta MFA, webshells de prueba)
 ├── scans/                       ← output crudo de herramientas (ej. WPScan)
@@ -80,6 +80,11 @@ bigshop-security-audit/
 | 17 | **[PixelForge]** 🏆 Toma de cuenta admin vía tokens filtrados en mail.log | 🔴 Crítico | 8.6 |
 | 18 | **[WordPress]** Enumeración masiva de usuarios sin autenticación (29 cuentas) | 🟡 Medio | 5.3 |
 | 19 | **[WordPress]** Denegación de servicio parcial vía wp-cron.php | 🟡 Medio | 5.3 |
+| 20 | **[WordPress]** Credenciales débiles (`admin`/`qwerty`) vía fuerza bruta | 🔴 Crítico | 9.1 |
+| 21 | **[WordPress]** RCE vía Theme File Editor → reverse shell | 🔴 Crítico | 9.8 |
+| 22 | **[WordPress]** Secretos de BD y claves de autenticación en wp-config.php | 🔴 Crítico | 8.6 |
+| 23 | **[WordPress]** Grupo `workers` con `/etc` escribible (no explotado) | 🟡 Medio | 6.0 |
+| 24 | **[WordPress]** 🏆 Cadena completa: fuerza bruta → RCE → compromiso total | 🔴 Crítico | 9.8 |
 
 ---
 
