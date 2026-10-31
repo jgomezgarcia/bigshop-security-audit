@@ -7,7 +7,7 @@
 
 ## 📖 Contexto
 
-Tras confirmar que `bigshop.local` es un sitio real distinto del vhost por defecto de Apache (ver reconocimiento en el [README principal](../README.md#-wordpress-puerto-80)), el siguiente paso natural fue probar las rutas de reconocimiento "clásicas" de WordPress antes de lanzar ningún escáner automatizado.
+Tras confirmar que `bigshop.local` es un sitio real distinto del vhost por defecto de Apache (ver reconocimiento en [`auditoria/wordpress/`](../auditoria/wordpress/README.md)), el siguiente paso natural fue probar las rutas de reconocimiento "clásicas" de WordPress antes de lanzar ningún escáner automatizado.
 
 ## 🔬 Explotación paso a paso
 
