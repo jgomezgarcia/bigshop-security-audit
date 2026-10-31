@@ -11,16 +11,20 @@ Con la shell de [F-022](F-022-rce-theme-file-editor.md), se enumeraron las vías
 
 ## 🔬 Explotación paso a paso (investigación, no explotación)
 
+**La idea en una frase:** en Linux, el permiso que decide si puedes borrar o sustituir un archivo no es el del archivo, sino el de la carpeta que lo contiene — y la carpeta que guarda los archivos más sensibles del sistema (`/etc`) estaba abierta a un grupo que no debería tener acceso.
+
+Piensa en `/etc` como un cajón de archivador, y cada fichero dentro (`passwd`, `sudoers`, `cron.d/*`) como una carpeta individual que dice "propiedad de root, no tocar". Esa etiqueta solo importa para leer o modificar el *contenido* de la carpeta — para sacarla entera y poner una propia en su lugar, lo único que hace falta es tener la **llave del cajón**. Normalmente esa llave la tiene solo `root`:
+
 ```bash
 stat /etc
 ```
 
 ```
 Uid: (    0/    root)   Gid: ( 1000/ workers)
-Access: (0775/drwxrwxr-x)
+Access: (0775/drwxrwxr-x) — sin sticky bit
 ```
 
-En Linux, para borrar o renombrar una entrada dentro de un directorio hace falta permiso de escritura sobre el **directorio contenedor**, no sobre el archivo en sí. Sin *sticky bit* (a diferencia de `/tmp`, que sí lo tiene por diseño), cualquier miembro del grupo `workers` podría **borrar y recrear ficheros críticos de `/etc`** (`cron.d/*`, `passwd`, `sudoers`...) aunque sean propiedad de `root` — por ejemplo, reemplazando un cron job legítimo por uno propio que se ejecute como root.
+Aquí, el grupo `workers` también tiene esa llave. Existe una protección estándar justo para este problema: el *sticky bit* — es la razón por la que `/tmp` (que todo el mundo puede escribir) no deja borrar los archivos de otros ahí, solo los propios. `/etc` no tiene esa protección en este caso. Resultado: cualquier miembro de `workers` podría borrar `/etc/passwd` y poner una versión propia dándose a sí mismo acceso root, sustituir `/etc/sudoers`, o colar una tarea en `/etc/cron.d/` que se ejecute automáticamente como root — sin necesitar permiso sobre esos ficheros individuales, solo sobre el directorio que los contiene.
 
 **Por qué no se pudo explotar:**
 

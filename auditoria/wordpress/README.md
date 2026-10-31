@@ -172,7 +172,7 @@ mysql -h 127.0.0.1 -u wordpress -pwordpress wordpress \
 
 <br>
 
-Enumerando vías de escalada de privilegios desde `bigshop`:
+Enumerando vías de escalada de privilegios desde `bigshop`. **La idea en una frase:** en Linux, el permiso que decide si puedes borrar o sustituir un archivo no es el del archivo, sino el de la carpeta que lo contiene — y la carpeta de los archivos más sensibles del sistema (`/etc`) estaba abierta a un grupo que no debería tener acceso.
 
 ```bash
 stat /etc
@@ -180,7 +180,7 @@ stat /etc
 # Access: (0775/drwxrwxr-x) — sin sticky bit
 ```
 
-Sin *sticky bit*, cualquier miembro de `workers` podría borrar/recrear ficheros críticos de `/etc` (`cron.d`, `passwd`, `sudoers`) aunque sean de `root` — vía directa a root. Pero:
+Piensa en `/etc` como un cajón de archivador y cada fichero (`passwd`, `sudoers`, `cron.d/*`) como una carpeta que dice "propiedad de root, no tocar" — esa etiqueta solo protege el *contenido*; para sacar la carpeta entera y meter una propia solo hace falta la llave del cajón, y aquí el grupo `workers` también la tiene. Falta la protección estándar para esto (el *sticky bit*, la misma razón por la que `/tmp` no deja borrar archivos ajenos): sin ella, cualquier miembro de `workers` podría borrar/recrear `/etc/passwd`, `/etc/sudoers` o `/etc/cron.d/*` aunque sean de `root` — vía directa a ejecución como root. Pero:
 
 ```bash
 id
