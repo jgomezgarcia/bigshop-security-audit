@@ -1,0 +1,258 @@
+┌──(root㉿10698055697e)-[/]
+└─# wpscan --url http://bigshop.local -e vp,vt,u --random-user-agent
+_______________________________________________________________
+         __          _______   _____
+         \ \        / /  __ \ / ____|
+          \ \  /\  / /| |__) | (___   ___  __ _ _ __ ®
+           \ \/  \/ / |  ___/ \___ \ / __|/ _` | '_ \
+            \  /\  /  | |     ____) | (__| (_| | | | |
+             \/  \/   |_|    |_____/ \___|\__,_|_| |_|
+
+                  WordPress Security Scanner
+                         Version 4.1.0
+                    An Automattic endeavor
+                    https://automattic.com
+_______________________________________________________________
+
+[+] URL: http://bigshop.local/ [172.17.0.2]
+[+] Started: Sat Oct 31 11:30:38 2026
+[+] Command Line: wpscan --url http://bigshop.local -e vp,vt,u --random-user-agent
+[+] Hostname: 10698055697e
+
+Interesting Finding(s):
+
+[+] Headers
+ | Interesting Entry: Server: Apache/2.4.67 (Debian)
+ | Found By: Headers (Passive Detection)
+ | Confidence: 100%
+
+[+] robots.txt found: http://bigshop.local/robots.txt
+ | Interesting Entries:
+ |  - /wp-admin/
+ |  - /wp-admin/admin-ajax.php
+ | Found By: Robots Txt (Aggressive Detection)
+ | Confidence: 100%
+
+[+] XML-RPC seems to be enabled: http://bigshop.local/xmlrpc.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+ | References:
+ |  - http://codex.wordpress.org/XML-RPC_Pingback_API
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_ghost_scanner/
+ |  - https://www.rapid7.com/db/modules/auxiliary/dos/http/wordpress_xmlrpc_dos/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_xmlrpc_login/
+ |  - https://www.rapid7.com/db/modules/auxiliary/scanner/http/wordpress_pingback_access/
+
+[+] WordPress readme found: http://bigshop.local/readme.html
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+
+[+] Registration is enabled: http://bigshop.local/wp-login.php?action=register
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 100%
+
+[+] The external WP-Cron seems to be enabled: http://bigshop.local/wp-cron.php
+ | Found By: Direct Access (Aggressive Detection)
+ | Confidence: 60%
+ | References:
+ |  - https://www.iplocation.net/defend-wordpress-from-ddos
+ |  - https://github.com/wpscanteam/wpscan/issues/1299
+
+[+] WordPress version 7.1.4 identified (Latest, released on 2026-10-28).
+ | Found By: Rss Generator (Passive Detection)
+ |  - http://bigshop.local/feed/, <generator>https://wordpress.org/?v=7.1.4</generator>
+ | Confirmed By: Rss Generator (Passive Detection)
+ |  - http://bigshop.local/comments/feed/, <generator>https://wordpress.org/?v=7.1.4</generator>
+
+[+] WordPress theme in use: twentytwentyone
+ | Location: http://bigshop.local/wp-content/themes/twentytwentyone/
+ | Latest Version: 2.8 (up to date)
+ | Last Updated: 2026-08-19 12:00am GMT (2 months ago, per WordPress.org)
+ | Active Installs: 200,000 (per WordPress.org)
+ | Readme: http://bigshop.local/wp-content/themes/twentytwentyone/readme.txt
+ | Style URL: http://bigshop.local/wp-content/themes/twentytwentyone/style.css?ver=2.9
+ | Style Name: Twenty Twenty-One
+ | Style URI: https://wordpress.org/themes/twentytwentyone/
+ | Description: Twenty Twenty-One is a blank canvas for your ideas and it makes the block editor your best brush. Wi...
+ | Author: the WordPress team
+ | Author URI: https://wordpress.org/
+ |
+ | Found By: Css Style In Homepage (Passive Detection)
+ | Confirmed By: Css Style In 404 Page (Passive Detection)
+ |
+ | Version: 2.9 (80% confidence)
+ | Found By: Style (Passive Detection)
+ |  - http://bigshop.local/wp-content/themes/twentytwentyone/style.css?ver=2.9, Match: 'Version: 2.9'
+
+[+] Enumerating Vulnerable Plugins (via Passive and Aggressive Methods)
+
+[+] booking-calendar-pro
+ | Location: http://bigshop.local/wp-content/plugins/booking-calendar-pro/
+ | Readme: http://bigshop.local/wp-content/plugins/booking-calendar-pro/readme.txt
+ |
+ | Found By: Urls In Homepage (Passive Detection)
+ |
+ | [!] 1 vulnerability identified:
+ |
+ | [!] Title: Booking Calendar and Booking Calendar Pro <= Multiple Versions - Reflected Cross-Site Scripting via 'calendar_id'
+ |     UUID: 8d5159bd-326e-4c6b-9f97-d446f02b1dd6
+ |     Fixed in: 11.2.20
+ |     References:
+ |      - https://wpscan.com/vulnerability/8d5159bd-326e-4c6b-9f97-d446f02b1dd6
+ |      - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-12077
+ |      - https://www.wordfence.com/threat-intel/vulnerabilities/id/81cc09ee-da3d-407d-82c0-542b56df5aed
+ |
+ | Version: 2.4.1 (100% confidence)
+ | Found By: Readme - Stable Tag (Aggressive Detection)
+ |  - http://bigshop.local/wp-content/plugins/booking-calendar-pro/readme.txt
+ | Confirmed By: Readme - ChangeLog Section (Aggressive Detection)
+ |  - http://bigshop.local/wp-content/plugins/booking-calendar-pro/readme.txt
+
+[+] akismet
+ | Location: http://bigshop.local/wp-content/plugins/akismet/
+ | Latest Version: 5.7.2
+ | Last Updated: 2026-08-18 11:42pm GMT (2 months ago, per WordPress.org)
+ | Active Installs: 5,000,000 (per WordPress.org)
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://bigshop.local/wp-content/plugins/akismet/, status: 403
+ |
+ | [!] 1 vulnerability identified:
+ |
+ | [!] Title: Akismet 2.5.0-3.1.4 - Unauthenticated Stored Cross-Site Scripting (XSS)
+ |     UUID: 1a2f3094-5970-4251-9ed0-ec595a0cd26c
+ |     Fixed in: 3.1.5
+ |     References:
+ |      - https://wpscan.com/vulnerability/1a2f3094-5970-4251-9ed0-ec595a0cd26c
+ |      - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2015-9357
+ |      - http://blog.akismet.com/2015/10/13/akismet-3-1-5-wordpress/
+ |      - https://blog.sucuri.net/2015/10/security-advisory-stored-xss-in-akismet-wordpress-plugin.html
+ |
+ | The version could not be determined.
+ Checking Known Locations - Time: 00:00:25 <==================================================================================> (7343 / 7343) 100.00% Time: 00:00:25
+[i] 2 plugin(s) Identified.
+[+] Enumerating Vulnerable Themes (via Passive and Aggressive Methods)
+ Checking Known Locations - Time: 00:00:02 <====================================================================================> (652 / 652) 100.00% Time: 00:00:02
+[i] No themes Found.
+[+] Enumerating Users (via Passive and Aggressive Methods)
+
+[+] admin
+ | Found By: Rss Generator (Passive Detection)
+
+[+] Jack Osei
+ | Found By: Rss Generator (Passive Detection)
+
+[+] Luna De La Cruz
+ | Found By: Rss Generator (Passive Detection)
+
+[+] William Ferro
+ | Found By: Rss Generator (Passive Detection)
+
+[+] Harper Lemos
+ | Found By: Rss Generator (Passive Detection)
+
+[+] Amelia Santos
+ | Found By: Rss Generator (Passive Detection)
+
+[+] James Moreau
+ | Found By: Rss Generator (Passive Detection)
+
+[+] Charlotte King
+ | Found By: Rss Generator (Passive Detection)
+
+[+] Ethan Walsh
+ | Found By: Rss Generator (Passive Detection)
+
+[+] amelia-santos
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] ava-thompson
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] charlotte-king
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] emma-castillo
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] ethan-walsh
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] harper-lemos
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] isabella-dubois
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] jack-osei
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] james-moreau
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] kelly-rincon
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] liam-okafor
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] lucas-fischer
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] luna-delacruz
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] mateo-silva
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] mia-nakamura
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] noah-bennett
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] oliver-reyes
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] sofia-marino
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] william-ferro
+ | Found By: Wp Json Api (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/wp/v2/users/?per_page=100&page=1
+
+[+] Salt &amp; Stoke Surf Co.
+ | Found By: Oembed API - Author Name (Aggressive Detection)
+ |  - http://bigshop.local/wp-json/oembed/1.0/embed?url=http://bigshop.local/&format=json
+ Brute Forcing Author IDs - Time: 00:00:00 <======================================================================================> (10 / 10) 100.00% Time: 00:00:00
+[i] 29 user(s) Identified.
+[+] WPScan DB API OK
+ | Plan: free
+ | Requests Done (during the scan): 5
+ | Requests Remaining: 20
+[+] Finished: Sat Oct 31 11:31:17 2026
+[+] Requests Done: 8105
+[+] Cached Requests: 14
+[+] Most response codes received: 404: 8014, 200: 73, 301: 10, 403: 6, 302: 1
+[+] Data Sent: 2.753 MB
+[+] Data Received: 3.713 MB
+[+] Memory used: 286.527 MB
+[+] Elapsed time: 00:00:38
