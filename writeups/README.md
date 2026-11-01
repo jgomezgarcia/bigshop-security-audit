@@ -2,7 +2,7 @@
 
 Un writeup visual independiente por cada hallazgo técnico: contexto, explotación paso a paso con capturas, impacto y remediación. Pensados para leerse sueltos — cada uno es autocontenido, sin depender del README principal ni del PDF.
 
-Son **25 páginas** para **24 hallazgos** de la [tabla principal](../README.md#-hallazgos-confirmados): el bypass del rate-limit del MFA (`F-007`) tiene su propia página aunque el informe formal lo integra dentro de la cadena completa (`F-009`) — aquí se cuenta aparte por ser una técnica con entidad propia.
+Son **35 páginas** para **34 hallazgos** de la [tabla principal](../README.md#-hallazgos-confirmados): el bypass del rate-limit del MFA (`F-007`) tiene su propia página aunque el informe formal lo integra dentro de la cadena completa (`F-009`) — aquí se cuenta aparte por ser una técnica con entidad propia. Incluye también `F-031`, un resultado **negativo** (CSRF probado en navegador real y descartado) documentado con el mismo rigor que los positivos.
 
 ➡️ Volver al [README principal](../README.md) · [Informe técnico (PDF)](../docs/informe-BigShop.pdf)
 
@@ -47,6 +47,21 @@ Son **25 páginas** para **24 hallazgos** de la [tabla principal](../README.md#-
 | F-023 | [Secretos de BD y claves de autenticación en wp-config.php](F-023-secretos-wp-config.md) | 🔴 Crítico |
 | F-024 | [Grupo "workers" con /etc escribible (no explotado)](F-024-grupo-workers-etc-no-explotado.md) | 🟡 Medio |
 | F-025 | [🏆 Cadena completa: fuerza bruta → RCE → compromiso total](F-025-cadena-completa-wordpress.md) | 🔴 Crítico |
+
+## 🎬 StreamWave (puerto 9090) — en análisis
+
+| # | Writeup | Severidad |
+|---|---|:---:|
+| F-026 | [IDOR en /watch/{id} — vídeos "privados" visibles por cualquiera](F-026-idor-streamwave-watch.md) | 🟠 Alto |
+| F-027 | [Secretos expuestos en contenido privado (credenciales de BD + API key)](F-027-secretos-expuestos-streamwave.md) | 🟠 Alto |
+| F-028 | [🏆 SSRF en /api/fetch-thumb — escaneo interno + bypass de control de acceso por IP](F-028-ssrf-fetch-thumb-streamwave.md) | 🔴 Crítico |
+| F-029 | [Condición de carrera en likes — manipulación de Trending](F-029-race-condition-likes-streamwave.md) | 🟡 Medio-Alto |
+| F-030 | [🏆 Bypass de autenticación JWT (alg:none) — dump de usuarios + toma de cuenta admin](F-030-jwt-auth-bypass-streamwave.md) | 🔴 Crítico |
+| F-031 | [CSRF en comentarios — probado, no explotable](F-031-csrf-comentarios-streamwave-descartado.md) | ⚪ Informativo |
+| F-032 | [Política de contraseñas inexistente y sin rate-limit en login](F-032-politica-contrasenas-debil-streamwave.md) | 🟡 Medio |
+| F-033 | [Subida de fichero sin restricciones — XSS almacenado same-origin](F-033-upload-xss-streamwave.md) | 🟡 Medio |
+| F-034 | [🏆 Path Traversal en `?language=` — lectura arbitraria + compromiso cruzado de PixelForge](F-034-path-traversal-language-streamwave.md) | 🔴 Crítico |
+| F-035 | [XSS reflejado en el buscador (`?q=`), sin autenticación](F-035-xss-reflejado-buscador-streamwave.md) | 🟠 Alto |
 
 ---
 

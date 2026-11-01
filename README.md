@@ -6,7 +6,7 @@
 
 ![Status](https://img.shields.io/badge/estado-en%20curso-yellow)
 ![Target](https://img.shields.io/badge/objetivo-172.17.0.2-blue)
-![Findings](https://img.shields.io/badge/hallazgos-24-critical)
+![Findings](https://img.shields.io/badge/hallazgos-34-critical)
 ![License](https://img.shields.io/badge/uso-educativo-lightgrey)
 
 </div>
@@ -17,7 +17,7 @@
 
 Auditoría de seguridad de caja negra realizada, en el marco de un TFM, sobre **BigShop**, un laboratorio Docker con **4 aplicaciones web** desplegadas sobre un mismo host. Adoptamos el rol de auditores externos contratados por la empresa cliente ficticia *BigShop*, partiendo únicamente de una dirección IP.
 
-> 🚧 **Estado:** **3 de 4 aplicaciones auditadas por completo** — **PenguinWave** (puerto 8080, 10 hallazgos), **PixelForge** (puerto 10000, 7 hallazgos, con dos rutas independientes hasta ejecución remota de código y dos rutas independientes adicionales de toma de cuenta administradora) y **WordPress** (puerto 80, 7 hallazgos, compromiso total del servidor vía fuerza bruta → RCE → secretos expuestos). La aplicación restante (puerto 9090, StreamWave) sigue pendiente.
+> 🚧 **Estado:** **3 de 4 aplicaciones auditadas por completo** — **PenguinWave** (puerto 8080, 10 hallazgos), **PixelForge** (puerto 10000, 7 hallazgos, con dos rutas independientes hasta ejecución remota de código y dos rutas independientes adicionales de toma de cuenta administradora) y **WordPress** (puerto 80, 7 hallazgos, compromiso total del servidor vía fuerza bruta → RCE → secretos expuestos). La aplicación restante (puerto 9090, **StreamWave**) está **en análisis** — **10 hallazgos confirmados** hasta ahora, destacando un **Path Traversal no autenticado** que permite leer el código fuente completo de la aplicación (con secretos de Stripe/AWS/SendGrid/Twilio hardcodeados) y **comprometer la base de datos de PixelForge**, y un **bypass total de autenticación JWT** (`alg:none`) que vuelca la base de usuarios completa con contraseñas en texto plano y permite tomar la cuenta real de administrador. Se suman el IDOR masivo, los secretos expuestos en contenido privado, el SSRF que bypassa un control de acceso por IP real de las otras 3 apps, la condición de carrera en los likes, un XSS almacenado vía subida de fichero, un XSS reflejado en el buscador, y una política de contraseñas débil. Incluye también un resultado negativo documentado (CSRF probado y descartado).
 
 ## 🎯 Objetivo y alcance
 
@@ -85,6 +85,16 @@ bigshop-security-audit/
 | 22 | **[WordPress]** Secretos de BD y claves de autenticación en wp-config.php | 🔴 Crítico | 8.6 |
 | 23 | **[WordPress]** Grupo `workers` con `/etc` escribible (no explotado) | 🟡 Medio | 6.0 |
 | 24 | **[WordPress]** 🏆 Cadena completa: fuerza bruta → RCE → compromiso total | 🔴 Crítico | 9.8 |
+| 25 | **[StreamWave]** IDOR en `/watch/{id}` — vídeos "privados" visibles por cualquiera | 🟠 Alto | 7.5 |
+| 26 | **[StreamWave]** Secretos expuestos en contenido privado (credenciales BD + API key) | 🟠 Alto | 7.5 |
+| 27 | **[StreamWave]** 🏆 SSRF en `/api/fetch-thumb` — escaneo interno + bypass de control de acceso por IP | 🔴 Crítico | 8.6 |
+| 28 | **[StreamWave]** Condición de carrera en likes — manipulación del ranking de Trending | 🟡 Medio | 6.5 |
+| 29 | **[StreamWave]** 🏆 Bypass de autenticación JWT (`alg:none`) — dump de usuarios + toma de cuenta admin | 🔴 Crítico | 9.8 |
+| 30 | **[StreamWave]** CSRF en comentarios — probado en navegador real, no explotable | ⚪ Info | — |
+| 31 | **[StreamWave]** Política de contraseñas inexistente y sin rate-limit en login | 🟡 Medio | 5.3 |
+| 32 | **[StreamWave]** Subida de fichero sin restricciones → XSS almacenado same-origin | 🟡 Medio | 5.7 |
+| 33 | **[StreamWave]** 🏆 Path Traversal en `?language=` → código fuente + compromiso cruzado de PixelForge | 🔴 Crítico | 7.9 |
+| 34 | **[StreamWave]** XSS reflejado en el buscador (`?q=`), sin autenticación | 🟠 Alto | 6.1 |
 
 ---
 
@@ -104,12 +114,17 @@ bigshop-security-audit/
 - [`scripts/pixelforge_avatar_rce_shell.php`](scripts/pixelforge_avatar_rce_shell.php) — webshell mínimo (`system($_GET['cmd'])`) usado como avatar para confirmar la RCE de PixelForge.
 - [`scripts/pixelforge_avatar_xss_poc.svg`](scripts/pixelforge_avatar_xss_poc.svg) / [`pixelforge_avatar_xss_cookie_steal.svg`](scripts/pixelforge_avatar_xss_cookie_steal.svg) — SVG con `onload` para confirmar que el mismo formulario de avatar tampoco filtra SVGs con JS embebido.
 - [`scans/wpscan-bigshop-puerto80.txt`](scans/wpscan-bigshop-puerto80.txt) — output completo de WPScan contra WordPress (puerto 80).
+- [`scripts/streamwave_idor_watch_scan.py`](scripts/streamwave_idor_watch_scan.py) — escáner propio (sin dependencias externas) del IDOR de StreamWave: barre las 26.000 combinaciones posibles del ID de vídeo (`HEAD` para detectar existencia, `GET` anónimo para clasificar público/privado y extraer título/owner/descripción). Resultados en [`scans/streamwave-idor-full-scan.json`](scans/streamwave-idor-full-scan.json) y [`scans/streamwave-idor-private-videos.csv`](scans/streamwave-idor-private-videos.csv).
+- [`scripts/streamwave_ssrf_portscan.py`](scripts/streamwave_ssrf_portscan.py) — escáner de puertos internos vía el SSRF ciego de `/api/fetch-thumb`: se autentica solo, barre un rango de puertos clasificando abierto-HTTP/abierto-no-HTTP/cerrado, y compara cada ruta sensible encontrada contra su respuesta externa real para confirmar bypass de control de acceso por IP sin falsos positivos. Resultado en [`scans/streamwave-ssrf-portscan-full.json`](scans/streamwave-ssrf-portscan-full.json).
+- [`scripts/streamwave_like_race_condition.py`](scripts/streamwave_like_race_condition.py) — PoC de la condición de carrera en `/api/videos/{id}/like` y `/unlike`: se autentica solo, resetea el vídeo, dispara N peticiones concurrentes con una sola sesión y mide el incremento/decremento real del contador contra el esperado (±1).
+- [`scripts/streamwave_jwt_auth_bypass.py`](scripts/streamwave_jwt_auth_bypass.py) — PoC del bypass de autenticación JWT `alg:none`: forja un token con `role:admin` sin firma, lo usa contra `/api/me` y `/api/admin/users` (dump completo de usuarios), y si encuentra la cuenta `admin`, prueba automáticamente el login real de sesión con la contraseña filtrada.
+- [`scripts/streamwave_lfi_scan.py`](scripts/streamwave_lfi_scan.py) — escáner del Path Traversal en `?language=`: prueba una lista de ficheros sensibles (incluidos pseudo-ficheros `/proc`) a distintas profundidades de `../`, sin autenticación ni dependencias externas.
 
 ---
 
 <div align="center">
 
-**Jose Gomez Garcia** · TFM — Máster en Ciberseguridad y Hacking Ético
+**José Gómez García** · TFM — Máster en Ciberseguridad y Hacking Ético
 
 *Laboratorio con fines educativos. Todas las vulnerabilidades se explotaron exclusivamente en el entorno de laboratorio Docker, sin alcance a sistemas de producción.*
 
