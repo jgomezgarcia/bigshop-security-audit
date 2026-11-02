@@ -26,7 +26,7 @@ sudo nmap -p- -sV -sC -T4 172.17.0.2
 |---|---|---|
 | **80** | **WordPress** (vhost `bigshop.local`) | Apache 2.4.67 + WordPress 7.1.4 |
 | **8080** | **PenguinWave** | Apache 2.4.67 + PHP |
-| 9090 | StreamWave (*pendiente*) | Node.js (Express) |
+| **9090** | **StreamWave** | Node.js (Express) |
 | **10000** | **PixelForge** | Apache 2.4.67 + PHP |
 
 Empezamos por el **8080 — PenguinWave**, una (ficticia) escuela de surf con pingüinos.
@@ -35,4 +35,4 @@ Empezamos por el **8080 — PenguinWave**, una (ficticia) escuela de surf con pi
 
 ---
 
-➡️ Continúa por app: [PenguinWave](penguinwave/README.md) · [PixelForge](pixelforge/README.md) · [WordPress](wordpress/README.md)
+➡️ Continúa por app: [PenguinWave](penguinwave/README.md) · [PixelForge](pixelforge/README.md) · [WordPress](wordpress/README.md) · [StreamWave](streamwave/README.md)

@@ -28,7 +28,7 @@ ab -n 20000 -c 300 -k http://bigshop.local/wp-cron.php
 > [!NOTE]
 > Nota de alcance: al interrumpirse con `Ctrl+C`, `ab` no llegó a imprimir las estadísticas finales (peticiones/segundo, tiempos de respuesta agregados) — la evidencia de impacto aquí es **cualitativa** (ritmo de avance mucho más lento que en la primera prueba), no una cifra exacta de degradación.
 
-No se escaló la intensidad más allá de esta segunda prueba. En un compromiso real el DoS suele estar fuera de alcance o fuertemente limitado por las reglas de contratación, precisamente por el riesgo de escalada descontrolada — y en este laboratorio en particular el mismo host aloja las otras 3 aplicaciones auditadas (PenguinWave, PixelForge y StreamWave, esta última aún pendiente). Tras la prueba, el laboratorio se reinició para restaurar el servicio con normalidad.
+No se escaló la intensidad más allá de esta segunda prueba. En un compromiso real el DoS suele estar fuera de alcance o fuertemente limitado por las reglas de contratación, precisamente por el riesgo de escalada descontrolada — y en este laboratorio en particular el mismo host aloja las otras 3 aplicaciones auditadas (PenguinWave, PixelForge y StreamWave). Tras la prueba, el laboratorio se reinició para restaurar el servicio con normalidad.
 
 ## 💥 Impacto
 

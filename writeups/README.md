@@ -48,7 +48,7 @@ Son **35 páginas** para **34 hallazgos** de la [tabla principal](../README.md#-
 | F-024 | [Grupo "workers" con /etc escribible (no explotado)](F-024-grupo-workers-etc-no-explotado.md) | 🟡 Medio |
 | F-025 | [🏆 Cadena completa: fuerza bruta → RCE → compromiso total](F-025-cadena-completa-wordpress.md) | 🔴 Crítico |
 
-## 🎬 StreamWave (puerto 9090) — en análisis
+## 🎬 StreamWave (puerto 9090)
 
 | # | Writeup | Severidad |
 |---|---|:---:|

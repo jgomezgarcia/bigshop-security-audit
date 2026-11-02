@@ -76,7 +76,7 @@ ab -n 20000 -c 300 -k http://bigshop.local/wp-cron.php
 
 <img src="../../assets/36-wordpress-wpcron-dos-ab-slow.png" width="500">
 
-No se confirmó caída total en las pruebas realizadas (nota de alcance: al interrumpirse con `Ctrl+C`, `ab` no imprimió estadísticas finales — la evidencia de impacto es cualitativa, no una cifra exacta), pero el patrón de ralentización progresiva (50→300 de concurrencia) indica un servicio expuesto a un ataque de disponibilidad escalable. No se escaló más allá de esta prueba: el mismo host aloja las otras 3 apps del laboratorio, incluida StreamWave, aún pendiente de auditar. Lab reiniciado tras la prueba.
+No se confirmó caída total en las pruebas realizadas (nota de alcance: al interrumpirse con `Ctrl+C`, `ab` no imprimió estadísticas finales — la evidencia de impacto es cualitativa, no una cifra exacta), pero el patrón de ralentización progresiva (50→300 de concurrencia) indica un servicio expuesto a un ataque de disponibilidad escalable. No se escaló más allá de esta prueba: el mismo host aloja las otras 3 apps del laboratorio, incluida StreamWave. Lab reiniciado tras la prueba.
 
 </details>
 
@@ -210,4 +210,4 @@ enumeración (1️⃣) → fuerza bruta (3️⃣) → RCE (4️⃣) → secretos
 
 ---
 
-⬅ [README principal](../../README.md)
+➡️ [StreamWave](../streamwave/README.md) · [README principal](../../README.md)
